@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-export function Product(p, setShowModal) {
-  const { title, thumbnail, id, description } = p.product;
+export function Product({ product:p, setShowModal }) {
+  const { title, thumbnail, id, description } = p;
 
   return (
     <div className="modal__box">
