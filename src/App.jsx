@@ -5,6 +5,8 @@ import { useFetch } from "./hooks/useFetch";
 export function App() {
   const { data, error, isPending } = useFetch("https://dummyjson.com/product");
   const [showModal, setShowModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
   return (
     <div className="main__container">
       {isPending && <h1>Loadding...</h1>}
@@ -16,9 +18,6 @@ export function App() {
             const { id, title, description, thumbnail } = product;
             return (
               <div key={id}>
-                {showModal && (
-                  <Product product={product} setShowModal={setShowModal} />
-                )}
                 <div className="card bg-base-100 group w-full shadow-sm hover:shadow-lg">
                   <figure>
                     <img
@@ -37,7 +36,12 @@ export function App() {
                       <a href={`./product.html?id=${id}`}>
                         <button
                           className="btn btn-secondary"
-                          onClick={() => setShowModal(true)}
+                          onClick={(e) => {
+                            e.preventDefault();
+
+                            setShowModal(true);
+                            setSelectedProduct(product);
+                          }}
                         >
                           Read more
                         </button>
@@ -49,6 +53,9 @@ export function App() {
             );
           })}
       </div>
+      {showModal && selectedProduct && (
+        <Product product={selectedProduct} setShowModal={setShowModal} />
+      )}
     </div>
   );
 }
